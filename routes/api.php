@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PropertyController;
 use App\Models\Propertie;
 use App\Models\User;
+use App\Models\Images;
+use App\Models\Information;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,41 @@ use App\Models\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('images/{id}',function($id){
+    return Images::find($id);
+});
+
+// crud para info forms
+Route::get('information',function(){
+    return Information::all();
+});
+
+Route::post('information',function (Request $request){
+    $valid = Information::create($request-> all());
+    return response()->json($valid);
+});
+
+Route::delete('information/{id}', function($id){
+
+    $encontrar = Information::find($id);
+    if($encontrar != null){
+        Information::find($id)->delete();
+        return response()->json([
+            'code' => '200',
+            'message' => "Successfully delete",
+            'success' => true
+        ], 200);
+    }
+
+    return response()->json([
+        'code' => '100',
+        'message' => "Information no delete",
+        'success' => true
+    ], 200);
+});
+
+
 
 // crud para usuarios
 Route::get('user',function(){
@@ -41,17 +78,17 @@ Route::delete('user/{id}', function($id){
 
     $encontrar = User::find($id);
     if($encontrar != null){
-        Propertie::find($id)->delete();
+        User::find($id)->delete();
         return response()->json([
             'code' => '200',
-            'message' => "Successfully created",
+            'message' => "Successfully user deleted",
             'success' => true
         ], 200);
     }
 
     return response()->json([
         'code' => '100',
-        'message' => "Propiedad no eliminada",
+        'message' => "User not deleted",
         'success' => true
     ], 200);
 });
@@ -85,14 +122,14 @@ Route::delete('properties/{id}', function($id){
         Propertie::find($id)->delete();
         return response()->json([
             'code' => '200',
-            'message' => "Successfully created",
+            'message' => "Successfully deleted",
             'success' => true
         ], 200);
     }
 
     return response()->json([
         'code' => '100',
-        'message' => "Propiedad no eliminada",
+        'message' => "Propertie dont deleted",
         'success' => true
     ], 200);
 });
