@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PropertyController;
+use App\Http\Controllers\Api\UserController;
 use App\Models\Propertie;
 use App\Models\User;
 use App\Models\Images;
@@ -62,6 +63,8 @@ Route::get('user',function(){
 Route::get('user/{id}',function($id){
     return User::find($id);
 });
+
+Route::get('username/{username}', [UserController::class, 'busqueda']);
 
 Route::post('user',function (Request $request){
     $valid = User::create($request-> all());
